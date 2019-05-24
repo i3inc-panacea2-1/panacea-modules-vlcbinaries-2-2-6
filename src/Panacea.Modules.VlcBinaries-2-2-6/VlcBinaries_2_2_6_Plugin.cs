@@ -28,7 +28,23 @@ namespace Panacea.Modules.VlcBinaries_2_2_6
 
         public string GetBinariesPath()
         {
-            return Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Vlc");
+            string path;
+            switch (IntPtr.Size)
+            {
+                case 4:
+                    path = "x86";
+                    break;
+                case 8:
+                    path = "x64";
+                    break;
+                default:
+                    throw new Exception("Unsuported architecture");
+            }
+            
+            return Path.Combine(
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                "Vlc",
+                path);
         }
 
         public string GetVersion() => "2.2.6";
